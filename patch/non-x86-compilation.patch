@@ -1,0 +1,30 @@
+--- a/Makefile	2017-12-24 17:18:44.589695726 -0500
++++ b/Makefile	2017-12-24 18:45:34.233160671 -0500
+@@ -3,18 +3,9 @@
+ LIBTCODDIR=src/libtcod-1.5.2
+ CFLAGS=-Isrc/brogue -Isrc/platform -Wall -Wno-parentheses ${DEFINES}
+ RELEASENAME=brogue-1.7.4
+-LASTTARGET := $(shell ./brogue --target)
+ CC ?= gcc
+ 
+-ifeq (${LASTTARGET},both)
+-all : both
+-else ifeq (${LASTTARGET},curses)
+-all : curses
+-else ifeq (${LASTTARGET},tcod)
+-all : tcod
+-else
+ all : both
+-endif
+ 
+ %.o : %.c Makefile src/brogue/Rogue.h src/brogue/IncludeGlobals.h
+ 	$(CC) $(CFLAGS) -g -o $@ -c $< 
+@@ -81,7 +72,7 @@
+ .PHONY : clean both curses tcod tar
+ 
+ bin/brogue : ${DEPENDENCIES} ${BROGUEFILES}
+-	$(CC) -O2 -march=i586 -o bin/brogue ${BROGUEFILES} ${LIBRARIES} -Wl,-rpath,.
++	$(CC) -O2 -o bin/brogue ${BROGUEFILES} ${LIBRARIES} -Wl,-rpath,.
+ 
+ clean : 
+ 	rm -f src/brogue/*.o src/platform/*.o bin/brogue
